@@ -7,14 +7,17 @@ require("dotenv").config();
 const token = process.env.TOKEN;
 const bot = new TelegramBot(token, { polling: true });
 
+const ADMIN_ID = process.env.ADMIN_ID; // آیدی عددی ادمین (جایگزین کن با آیدی خودت)
+
 const userData = {};
 
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
   const userId = msg.from.id;
+  const username = msg.from.username ? `@${msg.from.username}` : "ندارد";
 
   userData[userId] = {
-    telegramId: userId,
+    telegramId: username, // آی‌دی با @ ذخیره میشه
     step: "fullName",
   };
 
@@ -104,7 +107,7 @@ function saveToExcel(data) {
   } else {
     workbook = XLSX.utils.book_new();
     worksheet = XLSX.utils.aoa_to_sheet([
-      ["نام کامل", "شماره موبایل", "شناسه تلگرام", "شناسه CapitalXtend"],
+      ["نام کامل", "شماره موبایل", "آی‌دی تلگرام", "شناسه CapitalXtend"],
     ]);
     XLSX.utils.book_append_sheet(workbook, worksheet, "Users");
   }
@@ -124,7 +127,7 @@ function saveToExcel(data) {
   XLSX.writeFile(workbook, filePath);
 
   // 💌 ارسال فایل برای ادمین
-  bot.sendDocument(114827158, filePath, {
+  bot.sendDocument(ADMIN_ID, filePath, {
     caption: `📦 فایل اطلاعات جدید ذخیره شد ✨\n👤 کاربر: ${data.fullName}`,
   });
 }
