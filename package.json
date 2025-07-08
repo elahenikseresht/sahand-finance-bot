@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^17.1.0",
     "node-telegram-bot-api": "^0.66.0",
     "xlsx": "^0.18.5"
   }

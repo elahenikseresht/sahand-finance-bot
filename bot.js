@@ -2,8 +2,9 @@ const TelegramBot = require("node-telegram-bot-api");
 const XLSX = require("xlsx");
 const fs = require("fs");
 const path = require("path");
+require("dotenv").config();
 
-const token = "8088706376:AAFcyVb0DXSKm2qXWnVsnuE3HKDHhbhH4Wc";
+const token = process.env.TOKEN;
 const bot = new TelegramBot(token, { polling: true });
 
 const userData = {};
